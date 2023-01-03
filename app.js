@@ -8,9 +8,9 @@ const createApp = () => {
 
     response.setHeader("Content-Type", "application/json");
 
-    const jsonResponseBody = JSON.stringify({ location: "Mars" });
+    const jsonRes = JSON.stringify({ location: "Earth" });
 
-    response.end(jsonResponseBody);
+    response.end(jsonRes);
   });
 };
 
