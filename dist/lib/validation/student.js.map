@@ -1,0 +1,1 @@
+{"version":3,"file":"student.js","sourceRoot":"","sources":["../../../src/lib/validation/student.ts"],"names":[],"mappings":";;;AAAA,+CAAiD;AAEpC,QAAA,aAAa,GAAG,cAAI,CAAC,MAAM,CACtC;IACE,IAAI,EAAE,cAAI,CAAC,MAAM,EAAE;IACnB,GAAG,EAAE,cAAI,CAAC,OAAO,EAAE;IACnB,KAAK,EAAE,cAAI,CAAC,OAAO,EAAE;IACrB,QAAQ,EAAE,cAAI,CAAC,OAAO,EAAE;CACzB,EACD,EAAE,oBAAoB,EAAE,KAAK,EAAE,CAChC,CAAC"}
