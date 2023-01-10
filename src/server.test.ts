@@ -22,7 +22,8 @@ const run = () => {
       const response = await request
         .get("/students")
         .expect(200)
-        .expect("Content-Type", /application\/json/);
+        .expect("Content-Type", /application\/json/)
+        .expect("Access-Control-Allow-Origin", "http://localhost:8080");
 
       expect(response.body).toEqual(students);
     });
@@ -92,7 +93,8 @@ const run = () => {
           isPassed: true,
         })
         .expect(201)
-        .expect("Content-Type", /application\/json/);
+        .expect("Content-Type", /application\/json/)
+        .expect("Access-Control-Allow-Origin", "http://localhost:8080");
 
       expect(response.body).toEqual(student);
     });
@@ -139,7 +141,8 @@ const run = () => {
           isPassed: false,
         })
         .expect(200)
-        .expect("Content-Type", /application\/json/);
+        .expect("Content-Type", /application\/json/)
+        .expect("Access-Control-Allow-Origin", "http://localhost:8080");
 
       expect(response.body).toEqual(student);
     });
@@ -197,7 +200,10 @@ const run = () => {
   });
   describe("DELETE /student/:id", () => {
     test("Valid request", async () => {
-      const response = await request.delete("/students/1").expect(204);
+      const response = await request
+        .delete("/students/1")
+        .expect(204)
+        .expect("Access-Control-Allow-Origin", "http://localhost:8080");
 
       expect(response.text).toEqual("");
     });
