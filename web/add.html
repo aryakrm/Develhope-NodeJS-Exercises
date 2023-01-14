@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <p>
+      <a
+        href="http://localhost:3000/auth/login?redirectTo=http://localhost:8080/add"
+        >Login</a
+      >
+    </p>
+
+    <form action="http://localhost:3000/students" id="form-add">
+      <label>
+        <strong>Name:</strong>
+        <input type="text" name="name" />
+      </label>
+
+      <label>
+        <strong>Age:</strong>
+        <input type="number" name="age" />
+      </label>
+
+      <label>
+        <strong> Score:</strong>
+        <input type="number" name="score" />
+      </label>
+
+      <input type="submit" value="Add student" />
+    </form>
+
+    <script>
+      async function addStudent(event) {
+        event.preventDefault();
+
+        const form = event.currentTarget;
+
+        const formData = new FormData(form);
+        const plainFormData = Object.fromEntries(formData.entries());
+        const formDataJsonString = JSON.stringify(plainFormData);
+
+        const url = form.action;
+
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: formDataJsonString,
+          credentials: "include",
+        });
+
+        const student = await response.json();
+
+        console.dir(student);
+      }
+
+      const addForm = document.getElementById("form-add");
+
+      addForm.addEventListener("submit", addStudent);
+    </script>
+  </body>
+</html>
