@@ -8,6 +8,9 @@ import {
 
 import { initMulterMiddleware } from "../lib/middleware/multer";
 import express, { Router } from "express";
+
+import { checkAuthorization } from "../lib/middleware/passport";
+
 const upload = initMulterMiddleware();
 
 const router = Router();
@@ -31,6 +34,7 @@ router.get("/:id(\\d+)", async (request, response, next) => {
 });
 router.post(
   "/",
+  checkAuthorization,
   validate({ body: studentSchema }),
   async (request, response) => {
     const studentData: StudentData = request.body;
@@ -42,6 +46,7 @@ router.post(
 );
 router.put(
   "/:id(\\d+)",
+  checkAuthorization,
   validate({ body: studentSchema }),
   async (request, response, next) => {
     const studentId = Number(request.params.id);
@@ -60,23 +65,28 @@ router.put(
     }
   }
 );
-router.delete("/:id(\\d+)", async (request, response, next) => {
-  const studentId = Number(request.params.id);
-  try {
-    await prisma.student.delete({
-      where: {
-        id: studentId,
-      },
-    });
-    response.status(204).end();
-  } catch (error) {
-    response.status(404);
-    next(`Can not PUT /student/${studentId}`);
+router.delete(
+  "/:id(\\d+)",
+  checkAuthorization,
+  async (request, response, next) => {
+    const studentId = Number(request.params.id);
+    try {
+      await prisma.student.delete({
+        where: {
+          id: studentId,
+        },
+      });
+      response.status(204).end();
+    } catch (error) {
+      response.status(404);
+      next(`Can not PUT /student/${studentId}`);
+    }
   }
-});
+);
 
 router.post(
   "/:id(\\d+)/photo",
+  checkAuthorization,
   upload.single("photo"),
   async (request, response, next) => {
     console.log("request.file", request.file);
