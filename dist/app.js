@@ -8,6 +8,8 @@ require("express-async-errors");
 const client_1 = __importDefault(require("./lib/prisma/client"));
 const cors_1 = __importDefault(require("cors"));
 const validation_1 = require("./lib/validation");
+const multer_1 = require("./lib/middleware/multer");
+const upload = (0, multer_1.initMulterMiddleware)();
 const corsOptions = {
     origin: "http://localhost:8080",
 };
@@ -69,6 +71,15 @@ app.delete("/students/:id(\\d+)", async (request, response, next) => {
         response.status(404);
         next(`Can not PUT /student/${studentId}`);
     }
+});
+app.post("/students/:id(\\d+)/photo", upload.single("photo"), async (request, response, next) => {
+    console.log("request.file", request.file);
+    if (!request.file) {
+        response.status(400);
+        return next("No file Uploaded");
+    }
+    const photoFile = request.file.filename;
+    response.status(201).json({ photoFile });
 });
 app.use(validation_1.ValidationErrorMiddleware);
 exports.default = app;

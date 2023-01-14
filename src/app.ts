@@ -9,6 +9,10 @@ import {
   StudentData,
 } from "./lib/validation";
 
+import { initMulterMiddleware } from "./lib/middleware/multer";
+
+const upload = initMulterMiddleware();
+
 const corsOptions = {
   origin: "http://localhost:8080",
 };
@@ -81,6 +85,21 @@ app.delete("/students/:id(\\d+)", async (request, response, next) => {
     next(`Can not PUT /student/${studentId}`);
   }
 });
+
+app.post(
+  "/students/:id(\\d+)/photo",
+  upload.single("photo"),
+  async (request, response, next) => {
+    console.log("request.file", request.file);
+
+    if (!request.file) {
+      response.status(400);
+      return next("No file Uploaded");
+    }
+    const photoFile = request.file.filename;
+    response.status(201).json({ photoFile });
+  }
+);
 
 app.use(ValidationErrorMiddleware);
 
